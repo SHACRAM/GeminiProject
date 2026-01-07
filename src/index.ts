@@ -1,6 +1,7 @@
 // TODO: Importez GeminiClient et les types nécessaires
 import 'dotenv/config';
 import { GeminiClient } from "./models/GeminiClient.js";
+import { isSuccessResponse } from './types/gemini.types.js';
 
 // TODO: Créez une fonction principale async
 async function main() {
@@ -19,17 +20,30 @@ async function main() {
   try{
     const response1 = await newGeminiClient.ask(
         {
-            prompt: "Peux tu me dire qui est arrivé avant : l'oeuf ou la poule ?"
+            prompt: "quelle est la capitale de la france ?"
         }
     )
-    if(response1.success){
+    if(isSuccessResponse(response1)){
         console.log(response1.data);
     } else {
         throw new Error("code :" + response1.code + " message : "+ response1.error);
     }
 
+    const response2 = await newGeminiClient.ask(
+        {
+            prompt: ""
+        }
+    )
+    if(isSuccessResponse(response2)){
+        console.log(response2.data);
+    } else {
+        throw new Error("code :" + response2.code + " message : "+ response2.error);
+    }
+
   }catch (error) {
-  console.error("Erreur lors de la requête 1 :", error);
+  console.error("Erreur lors de l'execution des requêtes :", error);
+
+  
 
 }
 
